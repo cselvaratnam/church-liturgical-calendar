@@ -18,12 +18,23 @@ else
   running_in_xbar=0
 fi
 
+# "| refresh=true" is xbar's click-to-refresh parameter syntax; xbar strips
+# it from the displayed text, but a terminal just prints it literally, so
+# only append it when actually running inside xbar.
+refresh_line() {
+  if [ "$running_in_xbar" -eq 1 ]; then
+    echo "Refresh | refresh=true"
+  else
+    echo "Refresh"
+  fi
+}
+
 # Collect the front page of the Church of England website
 if ! web=$(curl -f -s -S https://www.churchofengland.org/); then
   echo "⚠️ CofE calendar"
   echo "---"
   echo "Could not fetch churchofengland.org"
-  echo "Refresh | refresh=true"
+  refresh_line
   exit 0
 fi
 
@@ -56,4 +67,4 @@ if [ "$running_in_xbar" -eq 1 ]; then
 else
   printf "%s\n" "$collect" | sed 's/\\r/\n/g'
 fi
-echo "Refresh | refresh=true"
+refresh_line
