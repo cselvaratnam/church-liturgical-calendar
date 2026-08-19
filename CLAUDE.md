@@ -51,6 +51,16 @@ preserve that branch — don't "simplify" it back to a single unconditional
 before the `sed` extraction (see point 2 above) or the multi-line matches
 will stop working.
 
+### The trailing "Refresh" line — xbar-only
+
+The last line of xbar output, `Refresh | refresh=true`, defines a clickable
+menu item (the `| refresh=true` param makes clicking it re-run the plugin).
+It isn't part of the Collect content. A terminal has nothing to click, so
+printing it there just adds a stray trailing "Refresh" line after "Amen." —
+the `refresh_line()` helper omits it entirely when `$running_in_xbar` is 0,
+rather than printing a plain "Refresh" with no `| refresh=true`. Keep using
+`refresh_line()` for this rather than a bare `echo`.
+
 ## Permissions
 
 xbar requires the plugin script to be executable, and won't run it otherwise
