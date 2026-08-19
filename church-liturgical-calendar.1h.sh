@@ -18,14 +18,11 @@ else
   running_in_xbar=0
 fi
 
-# "| refresh=true" is xbar's click-to-refresh parameter syntax; xbar strips
-# it from the displayed text, but a terminal just prints it literally, so
-# only append it when actually running inside xbar.
+# "Refresh" is a clickable xbar menu item, not part of the Collect content,
+# and there's nothing to click in a terminal, so only print it inside xbar.
 refresh_line() {
   if [ "$running_in_xbar" -eq 1 ]; then
     echo "Refresh | refresh=true"
-  else
-    echo "Refresh"
   fi
 }
 
